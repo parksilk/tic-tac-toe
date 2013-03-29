@@ -1,4 +1,5 @@
 var io = require('socket.io').listen(8888);
+var games = [];
 
 io.sockets.on('connection', function (socket) {
   socket.on('login', function(username) {
@@ -6,6 +7,7 @@ io.sockets.on('connection', function (socket) {
     socket.set('username', username, function() {
       console.log("Broadcasting loggedin");
       io.sockets.emit('loggedin', username);
+      io.sockets.emit('games', games);
     });
 
     socket.on('start', function() {
@@ -13,6 +15,8 @@ io.sockets.on('connection', function (socket) {
         socket.join(username);
         socket.set('hostname', username, function() {
           io.sockets.emit('new_game', username);
+          games.push(username);
+          io.sockets.emit('games', games);
         });
       });
     });
@@ -21,6 +25,8 @@ io.sockets.on('connection', function (socket) {
       socket.join(hostname);
       socket.set('hostname', hostname, function() {
         io.sockets.in(hostname).emit('joined', username);
+        remove_game(username, games);
+        io.sockets.emit('games', games);
       });
     });
     
@@ -49,6 +55,11 @@ io.sockets.on('connection', function (socket) {
           io.sockets.in(hostname).emit('left', username);
         });
       });
+    }
+
+    function remove_game(game, games) {
+      index = games.indexOf(game);
+      games.splice(index);
     }
   });
 });

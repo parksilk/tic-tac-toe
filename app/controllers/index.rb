@@ -1,9 +1,9 @@
 before do
-  if session[:user].nil?
-    unless request.path_info = "/login" || request.path_info = "/signup"
-      redirect '/'
-    end
-  end
+  # if session[:user].nil?
+  #   unless request.path_info = "/login" || request.path_info = "/signup"
+  #     redirect '/'
+  #   end
+  # end
 end
 
 get '/' do
