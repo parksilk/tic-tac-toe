@@ -8,14 +8,24 @@
   -->
   <link rel="stylesheet" href="/css/normalize.css">
   <link rel="stylesheet" href="/css/application.css">
-
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="/js/application.js"></script>
   <script type="text/javascript" src="http://localhost:8888/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/js/game.js"></script>
+  
 
   <title>TicTacToe</title>
 </head>
 <body>
   <div class="container">
+    <ul class="user-block">
+      <% if session[:user].nil? %> 
+      <li><a href="#login">Login</a></li>
+      <li><a href="#signup">Signup</a></li>
+      <% else %>
+        <li><a href="/logout">Logout</a></li>
+      <% end %>
+    </ul>
    <%= yield %>
   </div>
 </body>
