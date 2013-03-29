@@ -7,3 +7,7 @@ function login(username) {
 socket.on('loggedin', function(username) {
   console.log("User " + username + " logged in");
 });
+
+socket.on('loggedout', function(username) {
+  console.log("User " + username + " logged out");
+});
