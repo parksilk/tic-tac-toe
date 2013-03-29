@@ -20,27 +20,35 @@ io.sockets.on('connection', function (socket) {
     socket.on('join', function(hostname) {
       socket.join(hostname);
       socket.set('hostname', hostname, function() {
-        socket.in(hostname).emit('joined', username);
+        io.sockets.in(hostname).emit('joined', username);
       });
     });
     
     socket.on('move', function(x) {
       socket.get('username', function(err, username) { 
         socket.get('hostname', function(err, hostname) {
-          socket.in(hostname).emit('move', username, x);
+          io.sockets.in(hostname).emit('move', username, x);
         });
       });
     });
 
-    socket.on('leave', function(token) {
-      //leave the room
-      //set game to lose if not finished
+    socket.on('leave', function() {
+      leave();
     });
 
     socket.on('disconnect', function() {
       socket.get('username', function(err, username) {
+        leave();
         io.sockets.emit('loggedout', username);
       })
     });
+
+    function leave() {
+      socket.get('username', function(err, username) {
+        socket.get('hostname', function(err, hostname) {
+          io.sockets.in(hostname).emit('left', username);
+        });
+      });
+    }
   });
 });
