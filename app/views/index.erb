@@ -1,0 +1,13 @@
+<ul>
+  <li><a href="#login">Login</a></li>
+  <li><a href="#signup">Signup</a></li>
+</ul>
+
+<% if @message %>
+  <%= @message %>
+<% end %>
+
+<div class="login-signup">
+<%= erb :_login %>
+<%= erb :_signup %>
+</div>

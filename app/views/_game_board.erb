@@ -1,0 +1,5 @@
+<ul class="board three-col">
+<% @game.board.split("").each_with_index do |v,i| %>
+  <li class="cell-<%= i %>"><%= v %></li>
+<% end %>
+</ul>
