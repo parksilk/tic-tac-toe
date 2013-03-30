@@ -30,10 +30,10 @@ io.sockets.on('connection', function (socket) {
       });
     });
     
-    socket.on('move', function(x) {
+    socket.on('move', function(move) {
       socket.get('username', function(err, username) { 
         socket.get('hostname', function(err, hostname) {
-          io.sockets.in(hostname).emit('move', username, x);
+          io.sockets.in(hostname).emit('move', username, move.piece, move.pos);
         });
       });
     });
@@ -44,15 +44,19 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', function() {
       socket.get('username', function(err, username) {
-        leave();
         io.sockets.emit('loggedout', username);
+        leave();
       })
     });
 
     function leave() {
       socket.get('username', function(err, username) {
         socket.get('hostname', function(err, hostname) {
-          io.sockets.in(hostname).emit('left', username);
+          if (hostname) {
+            io.sockets.in(hostname).emit('left', username);
+            remove_game(username, games);
+            io.sockets.emit('games', games);
+          }
         });
       });
     }

@@ -1,9 +1,12 @@
-<script src="/js/games.js"></script>
+<script src="/js/game.js"></script>
+<script>
+  login('<%= @user.username %>');
+</script>
 
 <h1>All games</h1>
 <h2>Please enjoy yourself <%= @user.username %></h2>
-<ul>
-  <li></li>
+<ul id='games'>
+
 </ul>
 
-<a href="/game/<%= @user.username %>">Create game</a>
+<a href="/game/<%= @user.username %>/start">Create game</a>

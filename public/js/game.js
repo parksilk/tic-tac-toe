@@ -14,8 +14,8 @@ function join_game(hostname) {
   socket.emit('join', hostname);
 }
 
-function move(x) {
-  socket.emit('move', x);
+function move(x, piece) {
+  socket.emit('move', {pos: x, piece: piece});
 }
 
 // Listeners
@@ -36,10 +36,19 @@ socket.on('joined', function(username) {
   console.log("User " + username + " has joined your game")
 });
 
-socket.on('move', function(username, x) {
+socket.on('move', function(username, piece, x) {
   console.log("User " + username + " has moved at " + x);
+  console.log(x);
+  $('.' + x).text(piece);
 });
 
 socket.on('left', function(username) {
   console.log("User " + username + " has left the game");
+});
+
+socket.on('games', function(games) {
+  $('ul#games').empty();
+  for (var a = 0; a < games.length; a++) {
+    $('ul#games').append('<li><a href="/game/' + games[a] + '/join">' + games[a] + '</a></li>');
+  }
 });
