@@ -15,7 +15,7 @@
           $board[a] = $('.cell-' + a).text();
         }
         if ($.inArray('_', $board) == -1) {
-          $('.board').append('<a href="/games">Game over!</a>');
+          end_game();
         }
       }
     });

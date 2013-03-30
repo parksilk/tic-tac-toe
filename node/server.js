@@ -49,6 +49,10 @@ io.sockets.on('connection', function (socket) {
       })
     });
 
+    socket.on('gameover', function() {
+      io.sockets.emit('gameover');
+    });
+
     function leave() {
       socket.get('username', function(err, username) {
         socket.get('hostname', function(err, hostname) {

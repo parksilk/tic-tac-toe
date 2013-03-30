@@ -18,6 +18,11 @@ function move(x, piece) {
   socket.emit('move', {pos: x, piece: piece});
 }
 
+function end_game() {
+  socket.emit('gameover');
+  console.log('OOOOOOOOOOOOOHH!!');
+}
+
 // Listeners
 
 socket.on('loggedin', function(username) {
@@ -51,4 +56,9 @@ socket.on('games', function(games) {
   for (var a = 0; a < games.length; a++) {
     $('ul#games').append('<li><a href="/game/' + games[a] + '/join">' + games[a] + '</a></li>');
   }
+});
+
+socket.on('gameover', function() {
+  console.log('AHH!!!');
+  $('.board').html('<a href="/games">Game over!</a>');
 });
